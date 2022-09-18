@@ -1,6 +1,6 @@
 # Summary: This module contains the user interface and logic for a console-based version of the stock manager program.
-# Author: 
-# Date: 
+# Author: Jordin Kolman
+# Date: 9/18/2022
 
 from datetime import datetime
 from stock_class import Stock, DailyData
@@ -82,8 +82,15 @@ def manage_stocks(stock_list):
 # Add new stock to track
 def add_stock(stock_list):
     clear_screen()
-    print("*** This Module Under Construction ***")
-    _ = input("*** Press Enter to Continue ***")
+    option = ""
+    while option != "0":
+        print("Add Stock --- ")
+        symbol = input("Enter Ticker Symbol: ").upper()
+        name = input("Enter Company Name: ")
+        shares = float(input("Enter Number of Shares: "))
+        new_stock = Stock(symbol, name, shares)
+        stock_list.append(new_stock)
+        option = input("Stock Added - Enter to Add Another Stock or 0 to Stop: ")
 
 # Buy or Sell Shares Menu
 def update_shares(stock_list):
@@ -125,19 +132,65 @@ def sell_stock(stock_list):
 # Remove stock and all daily data
 def delete_stock(stock_list):
     clear_screen()
-    print("*** This Module Under Construction ***")
+    print("Delete Stock ---")
+    print("Stock List: [", end="")
+    for stock in stock_list:
+        print(stock.symbol," ",end="")
+    print("]")
+    symbol = input("Which stock do you want to delete?:").upper()
+    found = False
+    i = 0
+    for stock in stock_list:
+        if stock.symbol == symbol:
+            found = True
+            stock_list.pop(i)
+        i += 1
+    if found == True:
+        print("Deleted", symbol)
+    else:
+        print("Error: Symbol", symbol, "not found")
     _ = input("*** Press Enter to Continue ***")
 
 # List stocks being tracked
 def list_stocks(stock_list):
     clear_screen()
-    print("*** This Module Under Construction ***")
+    print("Stock List ---")
+    print("SYMBOL", " " * 7, "NAME", " " * 9, "SHARES")
+    print("====================================")
+    for stock in stock_list:
+        print(stock.symbol, " " * (11-len(stock.symbol)), stock.name, " " * (17-len(stock.name)), stock.shares) 
     _ = input("*** Press Enter to Continue ***")
 
 # Add Daily Stock Data
 def add_stock_data(stock_list):
     clear_screen()
-    print("*** This Module Under Construction ***")
+    print("Add Daily Stock Data ---")
+    print("Stock List [", end="")
+    for stock in stock_list:
+        print(stock.symbol," ",end="")
+    print("]")
+    symbol = input("Which stock do you want to use?: ").upper()
+    found = False
+    for stock in stock_list:
+        if stock.symbol == symbol:
+            found = True
+            current_stock = stock
+    if found == True:
+        print("Ready to add data for: ", symbol)
+        print("Enter Data Seperated By Commas - DO NOT Use Spaces")
+        print("Enter a Blank Line to Quit")
+        print("Enter Date,Price,Volume")
+        print("Example: 8/28/20,47.85,10550")
+        data = input("Enter Date,Price,Volume: ")
+        while data != "":
+            date, price, volume = data.split(",")
+            daily_data = DailyData(date, float(price), float(volume))
+
+            current_stock.add_data(daily_data)
+            data = input("Enter Date,Price,Volume: ")
+        print("Data Entry Complete")
+    else:
+        print("Symbol Not Found ***")
     _ = input("*** Press Enter to Continue ***")
 
 # Display Report for All Stocks

@@ -8,9 +8,9 @@ from datetime import datetime
 # Create Stock class here
 class Stock:
     def __init__(self, symbol, name, shares):
-        self._symbol = symbol
-        self._name = name
-        self._shares = shares
+        self.symbol = symbol
+        self.name = name
+        self.shares = shares
         self.DataList = [] # list of daily stock data
     
     def add_data(self, stock_data):

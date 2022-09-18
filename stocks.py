@@ -2,12 +2,12 @@
 # Author: 
 # Date: 
 
-import stock_console
+import stock_menu
 import stock_GUI
 
 def main():
     #For Console Version
-    stock_console.main()
+    stock_menu.main()
 
     #For GUI Version
     #stock_GUI.main()

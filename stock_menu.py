@@ -8,6 +8,7 @@ from account_class import Traditional, Robo
 from utilities import clear_screen, display_stock_chart
 from os import path
 import stock_data
+import matplotlib.pyplot as plt
 
 
 # Main Menu
@@ -203,10 +204,43 @@ def display_report(stock_data):
     print("*** This Module Under Construction ***")
     _ = input("*** Press Enter to Continue ***")
 
+# Display Stock Chart
+def display_stock_chart(stock_list, symbol):
+    date = []
+    price = []
+    volume = []
+    company = ""
+    for stock in stock_list:
+        if stock.symbol == symbol:
+            company = stock.name
+            for dailyData in stock.DataList:
+                date.append(dailyData.date)
+                price.append(dailyData.close)
+                volume.append(dailyData.volume)
+    plt.plot(date, price)
+    plt.xlabel('Date')
+    plt.ylabel('Price')
+    plt.title(company)
+    plt.show()
+
 # Display Chart
 def display_chart(stock_list):
     clear_screen()
-    print("*** This Module Under Construction ***")
+    print("Stock Chart---")
+    print("Stock List: [", end="")
+    for stock in stock_list:
+        print(stock.symbol," ",end="")
+    print("]")
+    symbol = input("Pick stock for a chart:").upper()
+    found = False
+    for stock in stock_list:
+        if stock.symbol == symbol:
+            found = True
+            current_stock = stock
+    if found == True:
+        display_stock_chart(stock_list, current_stock.symbol)
+    else:
+        print("Error: Symbol", symbol, "not found")
     _ = input("*** Press Enter to Continue ***")
 
 # Manage Data Menu
